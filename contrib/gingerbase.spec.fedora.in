@@ -8,12 +8,24 @@ Group:		System Environment/Base
 License:	LGPL/ASL2
 Source0:	%{name}-%{version}.tar.gz
 Requires:	wok
+Requires:	pyparted
+Requires:	python-cherrypy
+Requires:	python-configobj
+Requires:	python-lxml
 Requires:	python-psutil >= 0.6.0
+Requires:	rpm-python
+Requires:	gettext
+Requires:	git
 Requires:	sos
+BuildRequires:	gettext-devel
 BuildRequires:	libxslt
 BuildRequires:	python-lxml
 BuildRequires:	python-devel
 BuildRequires:	python-pip
+
+%if 0%{?fedora} >= 23
+Requires:	python2-dnf
+%endif
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %global with_systemd 1
@@ -51,6 +63,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gingerbase
 %{_prefix}/share/locale/*/LC_MESSAGES/gingerbase.mo
 %{_datadir}/wok/plugins/gingerbase
+%{_datadir}/wok/plugins/gingerbase/ui/pages/tabs/host-dashboard.html.tmpl
+%{_datadir}/wok/plugins/gingerbase/ui/pages/tabs/host-update.html.tmpl
 %{_sysconfdir}/wok/plugins.d/gingerbase.conf
 %{_sharedstatedir}/gingerbase/
 

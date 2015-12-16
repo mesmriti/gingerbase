@@ -47,8 +47,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="toolbar">
       <ul class="nav navbar-nav navbar-right tools">
-        <li><a id="host-button-restart" href="javascript:void(0);"><i class="fa fa-undo"></i><span>$_("Restart")</span></a></li>
-        <li><a id="host-button-shutdown" href="javascript:void(0);"><i class="fa fa-ban"></i><span>$_("Shut down")</span></a></li>
+        <li><a id="host-button-restart" href="javascript:void(0);" style="display:none"><i class="fa fa-undo"></i><span>$_("Restart")</span></a></li>
+        <li><a id="host-button-shutdown" href="javascript:void(0);" style="display:none"><i class="fa fa-ban"></i><span>$_("Shut down")</span></a></li>
         <!-- <li><a href="javascript:void(0);"><i class="fa fa-desktop"></i><span>$_("Connect")</span></a></li> -->
       </ul>
     </div>
@@ -61,36 +61,38 @@
 <div class="host-dashboard">
     <div class="container">
         <div id="alert-container"></div>
-        <div id="content-sys-statistics" class="row">
-            <div class="col-md-3">
-                <div id="cpu-dashboard">
-                    <h3 class="section-label">$_("CPU")</h3>
-                    <div class="section-value">
-                        <div id="container-chart-cpu" class="inline-block"></div>
+        <div id="dashboard-container">
+            <div id="content-sys-statistics">
+                <div class="col-md-3">
+                    <div id="cpu-dashboard">
+                        <h3 class="section-label">$_("CPU")</h3>
+                        <div class="section-value">
+                            <div id="container-chart-cpu" class="inline-block"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div id="memory-dashboard">
-                    <h3 class="section-label">$_("Memory")</h3>
-                    <div class="section-value">
-                        <div id="container-chart-memory" class="inline-block"></div>
+                <div class="col-md-3">
+                    <div id="memory-dashboard">
+                        <h3 class="section-label">$_("Memory")</h3>
+                        <div class="section-value">
+                            <div id="container-chart-memory" class="inline-block"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div id="disk-dashboard">
-                    <h3 class="section-label">$_("Disk I/O")</h3>
-                    <div class="section-value">
-                        <div id="container-chart-disk-io" class="inline-block"></div>
+                <div class="col-md-3">
+                    <div id="disk-dashboard">
+                        <h3 class="section-label">$_("Disk I/O")</h3>
+                        <div class="section-value">
+                            <div id="container-chart-disk-io" class="inline-block"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div id="network-dashboard">
-                    <h3 class="section-label">$_("Network I/O")</h3>
-                    <div class="section-value">
-                        <div id="container-chart-network-io" class="inline-block"></div>
+                <div class="col-md-3">
+                    <div id="network-dashboard">
+                        <h3 class="section-label">$_("Network I/O")</h3>
+                        <div class="section-value">
+                            <div id="container-chart-network-io" class="inline-block"></div>
+                        </div>
                     </div>
                 </div>
             </div>
