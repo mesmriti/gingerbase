@@ -15,8 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SUBDIRS = help tabs
+tabshtmldir = $(datadir)/wok/plugins/gingerbase/ui/pages/tabs
 
-htmldir = $(datadir)/wok/plugins/gingerbase/ui/pages
 
-dist_html_DATA = $(wildcard *.tmpl) $(NULL)
+dist_tabshtml_DATA = $(wildcard *.html.tmpl) $(NULL)
