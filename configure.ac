@@ -97,6 +97,7 @@ AC_CONFIG_FILES([
     contrib/gingerbase.spec.fedora
     contrib/gingerbase.spec.suse
     tests/Makefile
+    tests/fvt/Makefile
 ],[
     chmod +x po/gen-pot
 ])
