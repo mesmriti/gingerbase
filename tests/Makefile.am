@@ -17,6 +17,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+SUBDIRS = fvt
+
 EXTRA_DIST = \
 	Makefile.am \
 	run_tests.sh.in \
@@ -45,5 +47,9 @@ test_config.py: test_config.py.in Makefile
 check-local:
 	./run_tests.sh
 
-BUILT_SOURCES = test_config.py
+check-fvt:
+	fvt/run_tests.sh
+	rm -fr venv
+
+BUILT_SOURCES = run_tests.sh
 CLEANFILES = run_tests.sh test_config.py
