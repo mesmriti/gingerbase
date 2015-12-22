@@ -17,8 +17,10 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301USA
 
-from tests.lib.base_api_test import TestBase
-from tests.lib.restapilib import APIRequestError
+#from tests.lib.base_api_test import TestBase
+#from tests.lib.restapilib import APIRequestError
+from tests.fvt.restapilib import Validator
+from tests.fvt.fvt_base import TestBase, APIRequestError
 
 
 class TestConfig(TestBase):
