@@ -1,7 +1,10 @@
 import time
-from tests.lib.base_api_test import TestBase
-from tests.lib.restapilib import APIRequestError
-from tests.lib.restapilib import Validator
+from tests.fvt.restapilib import Validator
+from tests.fvt.fvt_base import TestBase, APIRequestError
+
+#from tests.lib.base_api_test import TestBase
+#from tests.lib.restapilib import APIRequestError
+#from tests.lib.restapilib import Validator
 
 
 class Debugreports(TestBase):
