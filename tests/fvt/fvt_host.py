@@ -20,11 +20,15 @@
 import time
 import unittest
 
-from tests.lib.base_api_test import TestBase
-from tests.lib.restapilib import APIRequestError
-from tests.lib.restapilib import Validator
+#from tests.lib.base_api_test import TestBase
+#from tests.lib.restapilib import APIRequestError
+#from tests.lib.restapilib import Validator
 from requests.exceptions import ConnectionError
-from tests.lib.utils import vm_utils
+#from tests.lib.utils import vm_utils
+from tests.fvt.utils import vm_utils
+from tests.fvt.restapilib import Validator
+from tests.fvt.fvt_base import TestBase, APIRequestError
+
 
 class TestHostInfo(TestBase):
     """
