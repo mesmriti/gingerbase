@@ -17,6 +17,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301USA
 
+import platform
 import time
 import unittest
 
@@ -30,6 +31,8 @@ from tests.fvt.restapilib import Validator
 from tests.fvt.fvt_base import TestBase, APIRequestError
 
 
+HOST_ARCH = platform.machine()
+
 class TestHostInfo(TestBase):
     """
     Represents test case that could help in testing the REST API supported for host static information.
@@ -38,18 +41,82 @@ class TestHostInfo(TestBase):
         \param TestBase  
          config file which contains all configuration information with sections
     """
-    # Response json of host static information looks like
-    # {"os_distro":"Fedora", "os_version":"21", "os_codename":"Twenty One", "cpu_model":"QEMU Virtual CPU version (cpu64-rhel6)", 
-    # "cpus":1, "memory":2073870336}
-    default_schema = {"type" : "object",
-                      "properties" : {"os_distro": {"type" : "string"},
-                                      "os_version" :{"type" : "string"},
-                                      "os_codename" : {"type" : "string"},
-                                      "cpu_model" : {"type" : "string"},
-                                      "cpus" : {"type" : "number"},
-                                      "memory" : {"type" : "number"},
-                                      }
+    # Response json of host static information on ppc and x86 architecture
+    # looks like
+    # {"os_distro":"Fedora", "cpus":{"offline":0, "online":4},
+    # "cpu_model":"Intel(R) Core(TM) i5-3320M CPU @ 2.60GHz",
+    # "os_version":"21", "host":"localhost.localdomain",
+    # "os_codename":"Twenty One", "architecture":"x86_64",
+    # "memory":{"offline":0, "online":7933894656 }}
+    default_schema = {"type": "object",
+                      "properties":
+                          {"os_distro": {"type": "string"},
+                           "os_version": {"type": "string"},
+                           "os_codename": {"type": "string"},
+                           "cpu_model": {"type": "string"},
+                           "architecture": {"type": "string"},
+                           "host": {"type": "string"},
+                           "cpus": {"type": "object",
+                                    "properties":
+                                        {"online": {"type": "number"},
+                                         "offline": {"type": "number"}
+                                         }
+                                    },
+                           "memory": {"type": "object",
+                                      "properties":
+                                          {"online": {"type": "number"},
+                                           "offline": {"type": "number"}
+                                           }
+                                    }
+                           }
                       }
+    if HOST_ARCH.startswith('s390x'):
+        # Response json of host static information on s390x architecture
+        # looks like
+        # {"os_distro":"KVM for IBM z Systems", "cpus":{"shared":2,
+        # "offline":2, "dedicated":0,"online":2}, "
+        # cpu_model":"IBM/2827/743 H43",
+        # "os_version":"1.1.1", "host":"zfwcec103", "os_codename":"Z",
+        # "architecture":"s390x", "memory":{"offline":2147483648,
+        # "online":2147483648}, "virtualization":{"lpar_name":"CSTLIN1",
+        # "hypervisor":"PR/SM", "lpar_number":55, "hypervisor_vendor":"IBM"}}
+
+        default_schema = {"type": "object",
+                          "properties":
+                              {"os_distro": {"type": "string"},
+                               "os_version": {"type": "string"},
+                               "os_codename": {"type": "string"},
+                               "cpu_model": {"type": "string"},
+                               "architecture": {"type": "string"},
+                               "host": {"type": "string"},
+                               "cpus": {"type": "object",
+                                        "properties":
+                                            {"online": {"type": "number"},
+                                             "offline": {"type": "number"},
+                                             "shared": {"type": "number"},
+                                             "dedicated": {"type": "number"}
+                                             }
+                                        },
+                               "memory": {"type": "object",
+                                          "properties":
+                                              {"online": {"type": "number"},
+                                               "offline": {"type": "number"}
+                                               }
+                                          },
+                               "virtualization": {"type": "object",
+                                                  "properties":
+                                                      {"lpar_name":
+                                                           {"type": "string"},
+                                                       "hypervisor":
+                                                           {"type": "string"},
+                                                       "lpar_number":
+                                                           {"type": "number"},
+                                                       "hypervisor_vendor":
+                                                           {"type": "string"}
+                                                     }
+                                                  }
+                               }
+                          }
     #swupdate api returns a task resource
     default_task_schema = {"type" : "object",
                            "properties": {"status": {"type": "string"},
@@ -136,6 +203,10 @@ class TestHostShutdownWithoutVms(TestBase):
     def setUpClass(self):
         super(TestHostShutdownWithoutVms, self).setUpClass()
         self.logging.info('--> TestHostShutdownWithoutVms.setUpClass()')
+        if HOST_ARCH.startswith('s390x'):
+            raise unittest.SkipTest(
+                'Skipping TestHostShutdownWithoutVms() since currently '
+                'templates has issues on s390x architecture')
         resp = vm_utils.list_vms(self.session, expected_status=[200])
         is_any_running_vm = False
         if resp is not None:
@@ -173,6 +244,10 @@ class TestHostShutdownWithRunningVms(TestBase):
     def setUpClass(self):
         super(TestHostShutdownWithRunningVms, self).setUpClass()
         self.logging.info('--> TestHostShutdownWithRunningVms.setUpClass()')
+        if HOST_ARCH.startswith('s390x'):
+            raise unittest.SkipTest(
+                'Skipping TestHostShutdownWithRunningVms() since currently '
+                'templates has issues on s390x architecture')
         self.vm_name="test_vm_4_host"
         vm_utils.create_vm(self.session, self.vm_name)
         vm_utils.start_vm(self.session, self.vm_name)
@@ -209,6 +284,10 @@ class TestHostRebootWithoutVms(TestBase):
     def setUpClass(self):
         super(TestHostRebootWithoutVms, self).setUpClass()
         self.logging.info('--> TestHostRebootWithoutVms.setUpClass()')
+        if HOST_ARCH.startswith('s390x'):
+            raise unittest.SkipTest(
+                'Skipping TestHostRebootWithoutVms() since currently '
+                'templates has issues on s390x architecture')
         resp = vm_utils.list_vms(self.session, expected_status=[200])
         is_any_running_vm = False
         if resp is not None:
@@ -247,6 +326,10 @@ class TestHostRebootWithRunningVms(TestBase):
     def setUpClass(self):
         super(TestHostRebootWithRunningVms, self).setUpClass()
         self.logging.info('--> TestHostRebootWithRunningVms.setUpClass()')
+        if HOST_ARCH.startswith('s390x'):
+            raise unittest.SkipTest(
+                'Skipping TestHostRebootWithRunningVms() since currently '
+                'templates has issues on s390x architecture')
         self.vm_name="test_vm_4_host"
         vm_utils.create_vm(self.session, self.vm_name)
         vm_utils.start_vm(self.session, self.vm_name)
